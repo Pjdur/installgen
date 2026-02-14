@@ -1,5 +1,6 @@
 use std::fs::File;
 use std::io::{self, Write};
+use std::path::PathBuf;
 
 fn main() {
     println!("Install Script Generator");
@@ -8,17 +9,19 @@ fn main() {
     let download_url = prompt("Binary download URL (Direct link to .zip or .exe)");
     if !download_url.starts_with("http") {
         println!(
-            
+
             "\x1b[1;33mWarning:\x1b[0m Your URL doesn't start with http/https. The installer might fail."
         );
     }
     let default_path = prompt("Default install path (e.g., $env:USERPROFILE)");
 
+    let install_dir_path = PathBuf::from(&default_path).join(&project_name);
+    let install_dir = install_dir_path.to_string_lossy();
     let ps_script = format!(
         r#"# PowerShell Installer for {project_name}
 $ProgressPreference = 'SilentlyContinue'
 $url = "{download_url}"
-$installDir = "{default_path}\{project_name}"
+$installDir = "{install_dir}"
 $tempFile = "$env:TEMP\{project_name}_installer_temp"
 
 # Determine file extension from URL
@@ -57,7 +60,7 @@ Pause
 "#,
         project_name = project_name,
         download_url = download_url,
-        default_path = default_path,
+        install_dir = install_dir,
     );
 
     let safe_name = project_name.replace(" ", "_");
