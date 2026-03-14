@@ -16,7 +16,7 @@ cargo install --path .
 
 ## Usage
 
-Run `installgen` and follow the prompts to generate your PowerShell installer script. The generated script will be saved as `[yourproject]-Installer.ps1` in the current directory.
+Run `installgen --name yourproject --url https://example.com/yourproject.[zip|exe] --install_dir $env:USERPROFILE`. The generated script will be saved as `[yourproject]-Installer.ps1` in the current directory.
 
 ## License
 
