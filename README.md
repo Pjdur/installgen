@@ -18,6 +18,10 @@ cargo install --path .
 
 Run `installgen --name yourproject --url https://example.com/yourproject.[zip|exe] --install_dir $env:USERPROFILE`. The generated script will be saved as `[yourproject]-Installer.ps1` in the current directory.
 
+## Notes
+
+- I had to use double braces to escape the curly braces in the PowerShell script template. So if you see `{{` or `}}` in the Rust code, it's actually a single `{` or `}` in the generated PowerShell script.
+- the generated Powershell script adds the install directory to the user's PATH (I thought that was useful because that's what I do when i install tools manually.)
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
